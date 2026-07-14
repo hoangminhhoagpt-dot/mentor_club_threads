@@ -22,8 +22,8 @@ const HOST_ONLY = process.argv.includes('--host-only');
 const argRec = process.argv.includes('--record') ? process.argv[process.argv.indexOf('--record') + 1] : '';
 const ONLY_REC = (process.env.RECORD_ID || argRec || '').trim();
 
-const F = { content: 'Nội dung', type: 'Loại', mediaAtt: 'Ảnh/video (Lark)', mediaUrl: 'Ảnh URL (công khai)',
-            schedule: 'Lịch đăng', status: 'Trạng thái', linkPost: 'Link bài đăng', postId: 'Threads post ID',
+const F = { content: 'Nội dung', type: 'Loại', mediaAtt: 'Ảnh/video', mediaUrl: 'Ảnh URL (công khai)',
+            schedule: 'Lịch đăng bài', status: 'Trạng thái', linkPost: 'Link bài đăng', postId: 'Threads post ID',
             log: 'Log', postedAt: 'Đăng lúc' };
 const DONE = 'Thành công', FAIL = 'Thất bại';
 const now = () => new Date().toISOString().replace('T', ' ').slice(0, 19);

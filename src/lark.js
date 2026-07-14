@@ -92,6 +92,7 @@ function fieldPayload(f) {
   const p = { field_name: f.field_name, type: f.type };
   if (f.type === 3 && f.options) p.property = { options: f.options.map(o => ({ name: o })) };
   if (f.type === 5) p.property = { date_formatter: 'yyyy/MM/dd HH:mm', auto_fill: false };
+  if (f.type === 20 && f.formula) p.property = { formula_expression: f.formula }; // cột công thức (vd Record ID)
   return p;
 }
 

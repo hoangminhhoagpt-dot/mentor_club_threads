@@ -18,20 +18,25 @@ node src/post-threads.js  # đăng các dòng "Chờ đăng"
 
 Chạy **cloud** thì không cần máy: chỉ đặt Vars/Secrets rồi bấm workflow (xem [TRIEN-KHAI.md](TRIEN-KHAI.md)).
 
-## Bảng 14.7 — schema (xem `schema/table.json`)
+## Bảng 14.7 — schema (sắp theo cấu trúc bảng 14.3, xem `schema/table.json`)
 
 | Cột | Kiểu | Ý nghĩa |
 |---|---|---|
 | Nội dung | Text (primary) | Nội dung bài, ≤ 500 ký tự |
+| STT | Text | Số thứ tự (giống 14.3) |
 | Loại | Single select | Text / Ảnh / Video (trống = tự đoán) |
-| Ảnh/video (Lark) | Attachment | **Thả file thẳng vào đây** — tự host ra URL công khai |
+| Ảnh/video | Attachment | **Thả file thẳng vào đây** — tự host ra URL công khai |
 | Ảnh URL (công khai) | URL | Hoặc dán sẵn link công khai |
-| Lịch đăng | DateTime | Trống hoặc tới giờ mới đăng |
+| Lịch đăng bài | DateTime | Trống hoặc tới giờ mới đăng |
+| **Đăng** | **Button** | Nút bấm 1 dòng — thêm TAY trong UI (API không tạo được), trỏ automation gọi dispatch với `record_id` |
 | Trạng thái | Single select | Chờ đăng / Thành công / Thất bại |
 | Link bài đăng | URL | Permalink (tự ghi) |
 | Threads post ID | Text | ID bài (tự ghi) |
 | Log | Text | Nhật ký (tự ghi) |
 | Đăng lúc | DateTime | Thời điểm đăng (tự ghi) |
+| Record ID | Formula `RECORD_ID()` | Giống 14.3 — cấp record_id cho nút Đăng |
+
+> `init-tables` tạo mọi cột trừ nút **Đăng** (Button không tạo được qua API) — thêm nút này TAY trong UI.
 
 ## ⚙️ Quyền Base (Advanced Permission) — ĐỌC KỸ
 
