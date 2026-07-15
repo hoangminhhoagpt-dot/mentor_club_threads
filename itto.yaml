@@ -1,0 +1,61 @@
+# ============================================================================
+# itto.yaml — HỢP ĐỒNG ITTO của gói mentor-club-threads (Threads ⇄ Lark Base)
+# Đăng bài lên Threads từ Lark + kéo số liệu Threads về Lark. Script ở src/*.js.
+# LƯU Ý: repo này là FORK từ hangchinaaibusiness — media host qua FTP (HANGCHINA_*).
+# ZERO-DEPENDENCY: soát bằng `node check-itto.mjs`.
+# ============================================================================
+
+package: mentor-club-threads
+version: 1.0.0
+skill: "(fork hangchinaaibusiness — chưa có skill hmh riêng)"
+
+# ── I — INPUT ──
+input:
+  base_mau:
+    template_url: "https://<link-nhan-ban-Base-Threads>"   # <đổi khi bàn giao>
+    setup: node src/init-tables.js
+    auth:  node src/get-token.js
+    tables:
+      - "Threads → Variable THREADS_TABLE_ID / THREADS_TABLE_NAME"
+  secrets:
+    - LARK_APP_SECRET
+    - THREADS_ACCESS_TOKEN
+    - HANGCHINA_FTP_HOST      # host media (ảnh/video) để Threads tải được
+    - HANGCHINA_FTP_USER
+    - HANGCHINA_FTP_PASS
+  variables:
+    - LARK_APP_ID
+    - LARK_DOMAIN
+    - LARK_BASE_ID
+    - THREADS_USER_ID
+    - THREADS_TABLE_ID
+    - THREADS_TABLE_NAME
+    - THREADS_MEDIA_BASE_URL
+  phieu_input: 00-PHIEU-INPUT.md
+  preflight: node check-itto.mjs
+
+# ── T — TECH ──
+tech:
+  - Lark Base
+  - Threads Graph API
+  - FTP media hosting (HANGCHINA_*)
+  - GitHub Actions
+
+# ── T — TOOL ──
+tool:
+  setup: node src/init-tables.js
+  auth:  node src/get-token.js
+  triggers:
+    - event_type: dang-threads
+      script: node src/post-threads.js
+      desc: "Đăng bài lên Threads từ bảng Lark"
+    - event_type: so-lieu-threads
+      script: node src/pull-insights.js
+      desc: "Kéo số liệu Threads về bảng Lark"
+
+# ── O — OUTPUT ──
+output:
+  writes_back:
+    - "bảng Threads: id bài đăng + số liệu (view/like/…)"
+  proof: "tab Actions xanh + bảng Threads có dữ liệu"
+  note: "Repo là FORK — media phải host công khai (FTP HANGCHINA_*) để Threads fetch được."
